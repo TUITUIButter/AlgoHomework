@@ -100,4 +100,72 @@ def plusOne(self, digits: List[int]) -> List[int]:
     return res
 ```
 ### result 2
-![](./p2-2.png)
+![](./p2-2.png
+
+## [Problem 13: romanToInt](https://leetcode.cn/problems/roman-to-integer/description/)
+### solution 1
+暴力遍历字符串。首先创建字符与int所对应的map，其后遍历字符串每一个字符，如果当前字符为I，X，C则需要判断
+下一位是否为目标字符，若是res减去当前字符对应值，否则加上当前字符对应值。
+
+需要注意判断i+1是否溢出。
+
+### code 1
+```java
+public int romanToInt(String s) {
+    Map<Character, Integer> map = new HashMap<>();
+    map.put('I',1);map.put('V',5);map.put('X',10);map.put('L',50);
+    map.put('C',100);map.put('D',500);map.put('M',1000);
+
+    int res = 0;
+    for(int i = 0; i < s.length(); i++){ // 遍历整个字符串
+        if(s.charAt(i) == 'I' && i+1 < s.length() &&
+            (s.charAt(i+1) == 'V' || s.charAt(i+1) == 'X')){
+            res -= 1; // 减去I对应值
+        }
+        else if(s.charAt(i) == 'X' && i+1 < s.length() &&
+            (s.charAt(i+1) == 'L' || s.charAt(i+1) == 'C')){
+            res -= 10; // 减去X对应值
+        }
+        else if(s.charAt(i) == 'C' && i+1 < s.length() &&
+            (s.charAt(i+1) == 'D' || s.charAt(i+1) == 'M')){
+            res -= 100; // 减去C对应值
+        }
+        else {
+            res += map.get(s.charAt(i)); // 加上对应值
+        }
+    }
+    return res;
+    }
+```
+
+### result 1
+![](./p3-1.png)
+
+### solution
+由于排列时大的数字在左侧，小的在右侧，因此可以从右到左遍历，记录当前遇到的最大的数字
+（由`I`向`M`增加）， 遇到更大的就加，并且更新最大数，遇到小的就减
+（遇到小的说明大小相反，需要减去当前值）。
+### code 2
+```java
+public int romanToInt2(String s) {
+    Map<Character, Integer> map = new HashMap<>();
+    map.put('I',1);map.put('V',5);map.put('X',10);map.put('L',50);
+    map.put('C',100);map.put('D',500);map.put('M',1000);
+
+    int res = 0;
+    int top = 1; // 记录最大值
+    for(int i = s.length() - 1; i >= 0; i--) { // 遍历整个字符串
+        int value = map.get(s.charAt(i)); // 获取数字
+        if(value >= top){ // 如果当前值比最大值大，更新最大值
+            res += value;
+            top = value;
+        }else { // 遇到了小的值，需要减去当前值
+            res -= value;
+        }
+    }
+    return res;
+}
+```
+
+### result 2
+![](./p3-2.png)

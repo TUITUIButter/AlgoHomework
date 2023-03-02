@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
 public class Main {
     public int reverse1(int x) {
@@ -61,6 +59,51 @@ public class Main {
         return digits;
     }
 
+    public int romanToInt(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I',1);map.put('V',5);map.put('X',10);map.put('L',50);
+        map.put('C',100);map.put('D',500);map.put('M',1000);
+
+        int res = 0;
+        for(int i = 0; i < s.length(); i++){ // 遍历整个字符串
+            if(s.charAt(i) == 'I' && i+1 < s.length() &&
+                    (s.charAt(i+1) == 'V' || s.charAt(i+1) == 'X')){
+                res -= 1;
+            }
+            else if(s.charAt(i) == 'X' && i+1 < s.length() &&
+                    (s.charAt(i+1) == 'L' || s.charAt(i+1) == 'C')){
+                res -= 10;
+            }
+            else if(s.charAt(i) == 'C' && i+1 < s.length() &&
+                    (s.charAt(i+1) == 'D' || s.charAt(i+1) == 'M')){
+                res -= 100;
+            }
+            else {
+                res += map.get(s.charAt(i));
+            }
+        }
+        return res;
+    }
+
+    public int romanToInt2(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I',1);map.put('V',5);map.put('X',10);map.put('L',50);
+        map.put('C',100);map.put('D',500);map.put('M',1000);
+
+        int res = 0;
+        int top = 1; // 记录最大值
+        for(int i = s.length() - 1; i >= 0; i--) { // 遍历整个字符串
+            int value = map.get(s.charAt(i)); // 获取数字
+            if(value >= top){ // 如果当前值比最大值大，更新最大值
+                res += value;
+                top = value;
+            }else { // 遇到了小的值，需要减去当前值
+                res -= value;
+            }
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -68,5 +111,8 @@ public class Main {
         System.out.println(main.reverse2(120));
 
         System.out.println(Arrays.toString(main.plusOne(new int[]{9,8,7,6,5,4,3,2,1,0})));
+
+        System.out.println(main.romanToInt("DCXXI"));
+        System.out.println(main.romanToInt2("DCXXI"));
     }
 }
