@@ -169,6 +169,52 @@ public class Main {
         }
     }
 
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null)
+            return head;
+
+        // 遍历列表长度
+        int len = 0;
+        ListNode node = head;
+        while(node != null){len++; node = node.next;}
+
+        if(len == n){ // 删除的是头
+            return head.next;
+        }
+
+        ListNode pre = head;
+        for(int i = 0; i < len - n - 1; i++){
+            pre = pre.next;
+        }
+        pre.next = pre.next.next;
+
+        return head;
+    }
+
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        if(head == null)
+            return head;
+
+        // 遍历列表长度
+        ListNode l = head, r = head;
+        for(int i = 0; i < n; i++){
+            r = r.next;
+        }
+
+        if(r == null){ // 加了n之后就是结尾，说明删除的是头结点
+            return head.next;
+        }
+
+        while (r.next != null){ // l,r同时向右移动，直至r到最后一个节点
+            l = l.next;
+            r = r.next;
+        }
+
+        l.next = l.next.next; // 删除l的下一个节点
+
+        return head;
+    }
+
     public static void main(String[] args) {
         Main main = new Main();
         System.out.println(main.threeSumClosest(new int[]{1,1,1,0},-100));
@@ -176,5 +222,16 @@ public class Main {
         System.out.println(main.letterCombinations("23"));
         System.out.println(main.letterCombinations2("23"));
         System.out.println(main.letterCombinations3("23"));
+
+        // 1->2->3->4
+        ListNode n4 = new ListNode(4);
+        ListNode n3 = new ListNode(3, n4);
+        ListNode n2 = new ListNode(2, n3);
+        ListNode n1 = new ListNode(1, n2);
+
+//        ListNode head = main.removeNthFromEnd(n1, 2);
+//        head.print();
+        ListNode head2 = main.removeNthFromEnd2(n1, 1);
+        head2.print();
     }
 }
