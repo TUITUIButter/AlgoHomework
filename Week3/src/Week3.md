@@ -18,7 +18,7 @@
 输出：0
 ```
 ## solution 1
-暴力枚举，三层for嵌套，寻找abs最小的sum值，时间复杂度为$O(n^3)$。
+暴力枚举，三层for嵌套，寻找abs最小的sum值，时间复杂度为 $O(n^3)$。
 测试提交，果然超时。
 ```java
 public int threeSumClosest(int[] nums, int target) {
@@ -45,13 +45,14 @@ public int threeSumClosest(int[] nums, int target) {
 }
 ```
 ## solution 2
+
 受到两数字之和的双指针方法启发，在本题中依旧可以寻找利用双指针的解法。
 
 由于只有两个指针，所以需要遍历第一个元素，且由于双指针的使用条件，需要对数组首先进行排序。
-首先枚举第一个元素 $a$，对于剩下的两个元素 $b$ 和 $c$，期望三数之和最接近$target$。
+首先枚举第一个元素 $a$，对于剩下的两个元素 $b$ 和 $c$，期望三数之和最接近 $target$。
 
-因此，使用两个指针$l$与$r$（$l$为$a.index + 1$, $r$为$num.len-1$），当$a + b + c < sum$时,
-l右移，反之r左移。每次记录最小值，当l与r重合时结束遍历，此时遍历下一个a值。
+因此，使用两个指针 $l$与 $r$（$l$为$a.index + 1$, $r$为 $num.len-1$），当 $a + b + c < sum$时,
+$l$右移，反之 $r$左移。每次记录最小值，当l与r重合时结束遍历，此时遍历下一个a值。
 ```java
 public int threeSumClosest2(int[] nums, int target) {
     int len = nums.length;
