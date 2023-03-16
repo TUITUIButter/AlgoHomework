@@ -1,4 +1,4 @@
-# Week 2 邰浩轩 2201212850 [AllCode](./Main.java)
+# Week 3 邰浩轩 2201212850 [AllCode](./Main.java)
 ## [Problem 16. 最接近的三数之和](https://leetcode.cn/problems/3sum-closest/)
 > 给你一个长度为 n 的整数数组 nums 和 一个目标值 target。请你从 nums 中选出三个整数，使它们的和与 target 最接近。
 > 
