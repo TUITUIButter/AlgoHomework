@@ -3,22 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
-        Main main = new Main();
-        int[][] intervals = new int[][]{{1, 4}, {4, 5}, {8, 17}, {15, 18}};
-        int[][] res = main.merge(intervals);
-        System.out.println(Arrays.deepToString(res));
 
-        // 1->2->3->4
-        ListNode n4 = new ListNode(3);
-        ListNode n3 = new ListNode(1, n4);
-        ListNode n2 = new ListNode(2, n3);
-        ListNode n1 = new ListNode(4, n2);
-        n1.print();
-
-        ListNode sortNode = main.sortList(n1);
-        sortNode.print();
-    }
 
     public int[][] merge(int[][] intervals) {
         // 对所有数队进行排序
@@ -129,5 +114,56 @@ public class Main {
             temp.next = temp2;
         }
         return dummyHead.next;
+    }
+
+    public int hIndex(int[] citations) {
+        int total  = citations.length;
+        int res = 0;
+
+        for(int i = 0; i <= total; i++){ // 遍历每一个h
+            int cnt = 0;
+            for (int citation : citations) { // 遍历每一个引用次数
+                if (citation >= i) {
+                    cnt++;
+                }
+            }
+
+            if(cnt >= i){
+                res = i;
+            }
+        }
+        return res;
+    }
+
+    public int hIndex2(int[] citations) {
+        Arrays.sort(citations);
+        int h = 0, i = citations.length - 1;
+        while (i >= 0 && citations[i] > h) {
+            h++;
+            i--;
+        }
+        return h;
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main();
+        int[][] intervals = new int[][]{{1, 4}, {4, 5}, {8, 17}, {15, 18}};
+        int[][] res = main.merge(intervals);
+        System.out.println(Arrays.deepToString(res));
+
+        // 1->2->3->4
+        ListNode n4 = new ListNode(3);
+        ListNode n3 = new ListNode(1, n4);
+        ListNode n2 = new ListNode(2, n3);
+        ListNode n1 = new ListNode(4, n2);
+        n1.print();
+
+        ListNode sortNode = main.sortList(n1);
+        sortNode.print();
+
+        int h = main.hIndex(new int[]{11,15});
+        System.out.println(h);
+        int h2 = main.hIndex2(new int[]{11,15});
+        System.out.println(h2);
     }
 }

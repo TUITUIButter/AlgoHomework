@@ -29,3 +29,14 @@
 
 
 [Week-3 code](Week3/src/Main.java) || [Week-3 report](Week3/src/Week3.md)
+
+
+## Week 4
+> [Problem 56. 合并区间](https://leetcode.cn/problems/merge-intervals/)
+>
+> [Problem 148. 排序链表](https://leetcode.cn/problems/sort-list/)
+>
+> [Problem 274. H 指数](https://leetcode.cn/problems/h-index/)
+
+
+[Week-4 code](Week4/src/Main.java) || [Week-4 report](Week4/src/Week4.md)

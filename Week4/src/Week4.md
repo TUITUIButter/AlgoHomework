@@ -185,6 +185,74 @@ public ListNode merge(ListNode head1,ListNode head2){
 
 ![](p2-2.png)
 
+## [Problem 274. H 指数](https://leetcode.cn/problems/h-index/)
+
+> 给你一个整数数组 `citations`，其中 `citations[i]` 表示研究者的第 `i` 篇论文被引用的次数。计算并返回该研究者的 `h` 指数。
+
+根据维基百科上 `h` 指数的定义：`h` 代表“高引用次数”，一名科研人员的 h指数是指他（她）的 （`n` 篇论文中）总共有 `h` 篇论文分别被引用了至少 `h` 次。且其余的 `n - h` 篇论文每篇被引用次数不超过 `h` 次。
+
+如果`h` 有多种可能的值，`h` 指数是其中最大的那个。
+
+```text
+输入：citations = [3,0,6,1,5]
+输出：3 
+解释：给定数组表示研究者总共有5篇论文，每篇论文相应的被引用了3, 0, 6, 1, 5 次。
+     由于研究者有3篇论文每篇至少被引用了3次，其余两篇论文每篇被引用不多于3次，所以她的h指数是3。
+     
+输入：citations = [1,3,1]
+输出：1
+```
+
+### solution 1
+暴力枚举，枚举每一个可能的`h`（由`1`至`n`）。每次枚举过程中遍历一遍数组，计数大于`h`
+的文章数，若最终`count`大于等于`h`，即该`h`满足条件。
+```java
+public int hIndex(int[] citations) {
+    int total  = citations.length;
+    int res = 0;
+
+    for(int i = 0; i <= total; i++){ // 遍历每一个h
+        int cnt = 0;
+        for (int citation : citations) { // 遍历每一个引用次数
+            if (citation >= i) {
+                cnt++;
+            }
+        }
+
+        if(cnt >= i){
+            res = i;
+        }
+    }
+    return res;
+}
+```
+### result 1
+时间复杂度较高， $O(n)$
+![](p3-1.png)
+
+### solution 2
+对引用进行排序，排序后遍历一遍数组。观察其下标与总长度的关系，若`len-index`大于
+当前值，则代表当前值可作为`h`。由此，如果当前指数为h并且在遍历过程中找到当前值 citations[i]>h，
+则说明找到了一篇被引用了至少 h+1 次的论文，所以将现有的 h 值加 1。继续遍历直到 h 无法继续增大。
+最后返回 h 作为最终答案。
+
+```java
+public int hIndex(int[] citations) {
+    Arrays.sort(citations); // 排序
+    int h = 0, i = citations.length - 1;
+    while (i >= 0 && citations[i] > h) { // 遍历数组，当引用值高于h时继续
+        h++;
+        i--;
+    }
+    return h;
+}
+```
+### result 2
+![](p3-2.png)
+
+
+
+
 
 
 
