@@ -40,3 +40,10 @@
 
 
 [Week-4 code](Week4/src/Main.java) || [Week-4 report](Week4/src/Week4.md)
+
+## Week 5
+> [Problem 5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+>
+> [Problem 64. 最小路径和](https://leetcode.cn/problems/minimum-path-sum/)
+>
+> [Problem 120. 三角形最小路径和](https://leetcode.cn/problems/triangle/)
