@@ -1,6 +1,8 @@
+import java.util.Arrays;
+
 public class Main {
     /**
-     * 1. 背包问题(Knapsack Problen)
+     * 1. 背包问题(Knapsack Problem)
      * 一个旅行者随身携带一个背包，可以放入背包的物品有n种，每种物
      * 品的重量和价值分別是w_i，v_i，i=1，，n。如果背包的最大容量限制是b，
      * 怎样选择放入背包的物品以使得背包的价值最大？
@@ -29,20 +31,33 @@ public class Main {
      * 设有m元钱，口项投资，函数f_i(x)表示将x元钱投入到第i项项目所产生
      * 的效益，i=1,…,n.问：如何分配这n元钱，使得投资的总效益最高？
      */
-    public int investment(int[][] f, int m) {
+    public int investment(int[][] f) {
         int n = f.length;
-        int[][] dp = new int[n+1][m+1];
-        for (int i = 1; i <= n; i++)
+        int m = f[0].length;
+        int[] dp = new int[m];
+
+        for(int j = 0; j < m; j++){
+            dp[j] = f[0][j];
+        }
+
+        for (int i = 1; i < n; i++)
         {
-            for (int j = 0; j <= m; j++)
+            /*  i 表示可以投资的项目为前i个
+                需要逆序，避免fk前面的数组内容变更影响后面的
+                (因为给同一个项目，一次投两块和分开两次一次一块的收益并不相等)
+            */
+            for (int j = m-1; j >= 0; j--) // j 表示可使用的总的资金量
             {
+                int maxPro = 0;
                 for (int k = 0; k <= j; k++)
                 {
-                    dp[i][j] = Math.max(dp[i][j], f[i][k] + dp[i - 1][j - k]);
+                    maxPro = Math.max(maxPro, f[i][j-k] + dp[k]);
                 }
+                dp[j] = maxPro;
             }
         }
-        return dp[n][m];
+//        System.out.println(Arrays.toString(dp));
+        return dp[m-1];
     }
 
 
@@ -54,5 +69,15 @@ public class Main {
 
         Main main = new Main();
         System.out.println(main.knapsack(w,v,b));
+
+        int[][] f = new int[][]{
+                {0,1,2,2,3,4},
+                {0,2,3,5,8,8},
+                {0,6,6,6,6,6},
+                {0,0,0,1,2,2},
+                {0,3,3,4,4,4}
+        };
+
+        System.out.println(main.investment(f));
     }
 }

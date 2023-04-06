@@ -56,20 +56,34 @@ public int knapsack(int[] w, int[] v, int b){
 由于每个项目最多只能被投资一次，因此这是一个0-1背包问题，而不是完全背包问题。
 
 ```java
-public int investment(int[][] f, int m) {
+public int investment(int[][] f) {
     int n = f.length;
-    int[][] dp = new int[n+1][m+1];
-    for (int i = 1; i <= n; i++)
+    int m = f[0].length;
+    int[] dp = new int[m];
+
+    for(int j = 0; j < m; j++){
+        dp[j] = f[0][j];
+    }
+
+    for (int i = 1; i < n; i++)
     {
-        for (int j = 0; j <= m; j++)
+        /*  i 表示可以投资的项目为前i个
+            需要逆序，避免fk前面的数组内容变更影响后面的
+            (因为给同一个项目，一次投两块和分开两次一次一块的收益并不相等)
+        */
+        for (int j = m-1; j >= 0; j--) // j 表示可使用的总的资金量
         {
+            int maxPro = 0;
             for (int k = 0; k <= j; k++)
             {
-                //k表示给第当前i个项目投资k元，给之前的i-1个项目总共投资j-k元的收益，0<=k<=j
-                dp[i][j] = Math.max(dp[i][j], f[i][k] + dp[i - 1][j - k]);
+                maxPro = Math.max(maxPro, f[i][j-k] + dp[k]);
             }
+            dp[j] = maxPro;
         }
     }
-    return dp[n][m];
+    System.out.println(Arrays.toString(dp));
+    return dp[m-1];
 }
 ```
+
+![](./res.png)
