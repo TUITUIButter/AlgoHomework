@@ -1,4 +1,5 @@
 import time
+import random
 
 
 def isPrime(n):
@@ -17,6 +18,31 @@ def isPrime2(n):
         if n % k == 0 or n % (k + 2) == 0:  # 判断左边和右边是否可以被n整除。
             return False
     return True
+
+
+def Miller_Rabin_raw(n):
+    k, p = 0, n - 1
+    while (p & 1) == 0:
+        p = p >> 1
+        k += 1
+    for j in range(6):
+        a = random.randint(1, n - 1)
+        b = pow(a, p, n)
+        flag = 0
+        if b == 1:
+            continue
+        for i in range(k):
+            if (b + 1) % n == 0:
+                flag = 1
+                break
+            else:
+                b = (b * b) % n
+        if flag == 1:
+            continue
+        else:
+            return False
+    return True
+
 
 
 if __name__ == '__main__':
@@ -50,6 +76,14 @@ if __name__ == '__main__':
     for _ in range(1000):
         for i in test_num:
             res = isPrime(i)
+    end = time.perf_counter()
+
+    print('Res: {}, Time: {:.3f}ms'.format(res, end - begin))
+
+    begin = time.perf_counter()
+    for _ in range(1000):
+        for i in test_num:
+            res = Miller_Rabin_raw(i)
     end = time.perf_counter()
 
     print('Res: {}, Time: {:.3f}ms'.format(res, end - begin))

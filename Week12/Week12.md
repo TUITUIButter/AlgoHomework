@@ -38,7 +38,46 @@ $O(\sqrt{n})$方法
   ```
 
   
+## 算法三
+Miller-Rabin素性测试算法
+引理:
+![img.png](img.png)
+> https://blog.csdn.net/ECNU_LZJ/article/details/72675595/
+> 
+假设需要判断的数是p，把p−1分解为2^k∗t 的形式。当p是素数，有a^2^k∗t≡1(mod p)。
+然后随机选择一个数a ，计算出a^t(mod p)
+让其不断的自乘，同时结合二次探测定理进行判断
+如果我们自乘后的数(mod p)=1 ，但是之前的数(mod p)≠ ±1。
 
+那么这个数就是合数(违背了二次探测定理)
+这样乘k 次，最后得到的数就是a^(p−1)
+
+那么如果最后计算出的数不为1 ，这个数也是合数(费马小定理)
+
+```python
+def Miller_Rabin_raw(n):
+    k, p = 0, n - 1
+    while (p & 1) == 0:
+        p = p >> 1
+        k += 1
+    for j in range(6):
+        a = random.randint(1, n - 1)
+        b = pow(a, p, n)
+        flag = 0
+        if b == 1:
+            continue
+        for i in range(k):
+            if (b + 1) % n == 0:
+                flag = 1
+                break
+            else:
+                b = (b * b) % n
+        if flag == 1:
+            continue
+        else:
+            return False
+    return True
+```
 ---
 
 ## 测试：
@@ -77,11 +116,23 @@ $O(\sqrt{n})$方法
   end = time.perf_counter()
 
   print('Res: {}, Time: {:.3f}ms'.format(res, end - begin))
+
+ begin = time.perf_counter()
+    for _ in range(1000):
+        for i in test_num:
+            res = Miller_Rabin_raw(i)
+    end = time.perf_counter()
+
+    print('Res: {}, Time: {:.3f}ms'.format(res, end - begin))
 ```
 
 ```text
 Time: 0.406ms
 Time: 0.337ms
+Time: 0.420ms
 ```
 
-时间大概减少20%
+算法2对比算法1，时间大概减少20%
+算法3只有在很大的整数下才可显现性能优异
+
+
